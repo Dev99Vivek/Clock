@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Timer Website</title>
+    <link rel="shortcut icon" href="/images/download.png" >
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Modern Timer Website</h1>
+        <div class="tabs">
+            <button class="tab-button active" data-target="clock">Clock</button>
+            <button class="tab-button" data-target="stopwatch">Stopwatch</button>
+            <button class="tab-button" data-target="timer">Timer</button>
+        </div>
+        <div class="tab-contents">
+            <div id="clock" class="tab-content active">
+                <div id="clockDisplay">
+                    <div class="clock-face">00:00:00<span id="clockMilliseconds">:000</span></div>
+                </div>
+                <button id="toggleFormat">Switch to 24-Hour</button>
+            </div>
+            <div id="stopwatch" class="tab-content">
+                <div id="stopwatchDisplay">
+                    <div class="stopwatch-face">00:00:00<span id="stopwatchMilliseconds">:000</span></div>
+                </div>
+                <button id="startStopwatch">Start</button>
+                <button id="stopStopwatch">Stop</button>
+                <button id="resetStopwatch">Reset</button>
+            </div>
+            <div id="timer" class="tab-content1">
+                <div class="timer-inputs">
+                    <input type="number" id="hoursInput" placeholder="Hours" min="0">
+                    <input type="number" id="minutesInput" placeholder="Minutes" min="0">
+                    <input type="number" id="secondsInput" placeholder="Seconds" min="0">
+                    <input type="number" id="millisecondsInput" placeholder="Milliseconds" min="0" step="1">
+                </div>
+                <div id="timerDisplay">
+                    00:00:00<span id="timerMilliseconds">:000</span>
+                </div>
+                <button id="startTimer">Start</button>
+                <button id="stopTimer">Stop</button>
+                <button id="resetTimer">Reset</button>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
