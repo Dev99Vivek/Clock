@@ -52,6 +52,7 @@ h1 {
     color: #1f1f1f;
 }
 
+
 .tab-content {
     display: none;
     transition: opacity 0.5s ease-in-out;
@@ -61,6 +62,7 @@ h1 {
     display: block;
     opacity: 1;
 }
+
 .tab-content1 {
     display: none;
     transition: opacity 0.5s ease-in-out;
@@ -70,6 +72,7 @@ h1 {
     display: block;
     opacity: 1;
 }
+
 #clockDisplay, #stopwatchDisplay, #timerDisplay {
     font-size: 3em;
     margin-bottom: 20px;
@@ -150,7 +153,7 @@ h1 {
     }
 }
 
-#timerDisplay.countdown {
+/* #timerDisplay.countdown {
     animation: countdownColorChange 1s infinite;
 }
 
@@ -167,7 +170,7 @@ h1 {
         background-color: #292929;
         color: #00d1ff;
     }
-}
+} */
 
 button {
     cursor: pointer;
@@ -261,3 +264,36 @@ button:active {
             }
 
         }
+
+
+
+.overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff; /* Text color */
+    justify-content: center;
+    align-items: center;
+    font-size: 2em; /* Font size */
+    z-index: 1000;
+    text-align: center; /* Center align text */
+    padding: 20px;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+.overlay div {
+    font-size: 1em; /* Ensure the text is large and readable */
+    color: #ffffff; /* White text color for contrast */
+    font-weight: bold; /* Bold text for emphasis */
+    padding: 20px; /* Add some padding around the text */
+    border-radius: 10px; /* Round the corners of the text box */
+    background: transparent; /* Slightly darker background for text box */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Shadow for better visibility */
+}

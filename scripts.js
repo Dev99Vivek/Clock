@@ -1,29 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab-button');
-    const contents = document.querySelectorAll('.tab-content');
+    const contents = document.querySelectorAll('.tab-content, .tab-content1');
     const clockDisplay = document.getElementById('clockDisplay');
     const stopwatchDisplay = document.getElementById('stopwatchDisplay');
     const timerDisplay = document.getElementById('timerDisplay');
     const toggleFormatButton = document.getElementById('toggleFormat');
+    const overlay = document.getElementById('overlay');
     let is24HourFormat = false;
+    let timerInterval;
+    let remainingTime = 0; // Store the remaining time for the timer
+    let timerRunning = false; // Track if the timer is running
+
+    // Function to switch tabs
+    function switchTab(targetId) {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        contents.forEach(content => {
+            content.classList.remove('active');
+            content.style.display = 'none';
+        });
+
+        const targetContent = document.getElementById(targetId);
+        targetContent.style.display = 'block';
+        targetContent.classList.add('active');
+
+        // Check if we're switching to the timer tab and restart timer if necessary
+        if (targetId === 'timer') {
+            if (timerRunning) {
+                startTimer(); // Resume timer if it was running
+            }
+        }
+    }
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            contents.forEach(content => {
-                content.classList.remove('active');
-                content.style.display = 'none';
-            });
-            const targetContent = document.getElementById(tab.dataset.target);
-            setTimeout(() => {
-                targetContent.style.display = 'block';
-                targetContent.classList.add('active');
-            }, 10);
+            const targetId = tab.dataset.target;
+            switchTab(targetId);
         });
     });
 
-    // Clock
+    // Clock Functionality
     function updateClock() {
         const now = new Date();
         let hours = now.getHours();
@@ -51,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleFormatButton.textContent = is24HourFormat ? 'Switch to 12-Hour' : 'Switch to 24-Hour';
     });
 
-    // Stopwatch
+    // Stopwatch Functionality
     let stopwatchTime = 0;
     let stopwatchMilliseconds = 0;
     let stopwatchInterval;
@@ -91,9 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     });
 
-    // Timer
-    let timerInterval;
-
+    // Timer Functionality
     function getTimerTime() {
         const hours = parseInt(document.getElementById('hoursInput').value, 10) || 0;
         const minutes = parseInt(document.getElementById('minutesInput').value, 10) || 0;
@@ -102,20 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
     }
 
-    document.getElementById('startTimer').addEventListener('click', () => {
-        clearInterval(timerInterval);
-        const totalTime = getTimerTime();
-        if (totalTime <= 0) {
-            alert('Please enter a valid time.');
-            return;
-        }
-        let remainingTime = totalTime;
-        timerDisplay.classList.add('countdown');
+    function startTimer() {
+        timerRunning = true;
+        overlay.classList.remove('active'); // Hide the overlay initially
+        document.body.classList.remove('blur'); // Remove blur effect
+
         timerInterval = setInterval(() => {
             if (remainingTime <= 0) {
                 clearInterval(timerInterval);
-                timerDisplay.classList.remove('countdown');
-                alert('Time is up!');
+                timerRunning = false;
+                timerDisplay.innerHTML = `00:00:00<span id="timerMilliseconds">:000</span>`;
+                overlay.classList.add('active'); // Show the overlay
+                document.body.classList.add('blur'); // Apply blur effect
                 return;
             }
             remainingTime -= 0.01; // Decrement by 10 milliseconds
@@ -127,16 +138,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${hours}:${minutes}:${seconds}<span id="timerMilliseconds">:${milliseconds}</span>
             `;
         }, 10);
+    }
+
+    document.getElementById('startTimer').addEventListener('click', () => {
+        clearInterval(timerInterval);
+        const totalTime = getTimerTime();
+        if (totalTime <= 0) {
+            alert('Please enter a valid time.');
+            return;
+        }
+        remainingTime = totalTime;
+        startTimer();
     });
 
     document.getElementById('stopTimer').addEventListener('click', () => {
         clearInterval(timerInterval);
+        timerRunning = false;
     });
 
     document.getElementById('resetTimer').addEventListener('click', () => {
         clearInterval(timerInterval);
-        timerDisplay.innerHTML = `
-            00:00:00<span id="timerMilliseconds">:000</span>
-        `;
+        timerDisplay.innerHTML = `00:00:00<span id="timerMilliseconds">:000</span>`;
+        remainingTime = 0;
+        timerRunning = false;
+        overlay.classList.remove('active'); // Hide the overlay
+        document.body.classList.remove('blur'); // Remove blur effect
     });
 });
