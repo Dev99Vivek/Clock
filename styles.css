@@ -73,10 +73,16 @@ h1 {
     opacity: 1;
 }
 
-#clockDisplay, #stopwatchDisplay, #timerDisplay {
+#clockDisplay, #stopwatchDisplay {
     font-size: 3em;
     margin-bottom: 20px;
     color: #00d1ff;
+    position: relative;
+}
+#timerDisplay{
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #1f1f1f;
     position: relative;
 }
 
@@ -121,7 +127,7 @@ h1 {
 
 #timerMilliseconds {
     font-size: 0.5em;
-    color: #00d1ff;
+    color: #1f1f1f;
     margin-top: -0.2em; /* Adjust to position correctly */
 }
 
